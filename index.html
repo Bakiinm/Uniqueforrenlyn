@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Co-Star Inspired by Angelocutie</title>
+    <style>
+        /* Co-Star Minimalist Aesthetic with a Soft Pastel Pink Twist */
+        :root {
+            --bg-color: #ffe5ec; /* Lovely soft pastel pink background */
+            --card-bg: #ffffff;  /* Clean white for the content boxes */
+            --text-color: #1a1a1a; /* Soft charcoal black for high contrast readability */
+            --border-color: #000000;
+            --accent-gray: #fff0f3; /* A lighter blush pink for highlight boxes */
+            --font-main: 'Courier New', Courier, monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            transition: background-color 0.5s ease;
+        }
+
+        /* --- LOG IN VIEW --- */
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            max-width: 400px;
+            width: 100%;
+            margin-top: 10vh;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .login-container h1 {
+            font-size: 2rem;
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .login-container p {
+            font-size: 0.8rem;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .input-group {
+            width: 100%;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            font-family: var(--font-main);
+            background: transparent;
+            outline: none;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--text-color);
+            color: #ffffff;
+            border: 1px solid var(--border-color);
+            font-family: var(--font-main);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        /* --- TRANSITION ANIMATION SCREEN --- */
+        .portal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #111111; /* Dark cosmic void overlay */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s ease;
+        }
+
+        .portal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Spinning alignment rings */
+        .cosmic-ring {
+            position: absolute;
+            border: 1px dashed rgba(255, 229, 236, 0.4);
+            border-radius: 50%;
+            animation: spin var(--duration, 8s) linear infinite;
+        }
+        .ring-1 { width: 220px; height: 220px; --duration: 10s; }
+        .ring-2 { width: 170px; height: 170px; --duration: 6s; animation-direction: reverse; }
+
+        /* Aquarius Glyph Pulse Animation */
+        .aquarius-glyph {
+            font-size: 4.5rem;
+            color: #ffe5ec;
+            text-shadow: 0 0 20px rgba(255, 229, 236, 0.8);
+            z-index: 10;
+            animation: cosmicPulse 2s ease-in-out infinite alternate;
+            margin-bottom: 20px;
+        }
+
+        .portal-text {
+            color: #ffe5ec;
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            z-index: 10;
+            opacity: 0.7;
+            animation: textFade 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes cosmicPulse {
+            0% { transform: scale(0.9); opacity: 0.6; filter: blur(1px); }
+            100% { transform: scale(1.1); opacity: 1; filter: blur(0px); }
+        }
+
+        @keyframes textFade {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.9; }
+        }
+
+        /* --- HOME & MAIN APP VIEW --- */
+        .app-container {
+            display: none; /* Hidden by default until login */
+            width: 100%;
+            max-width: 800px;
+            margin-top: 20px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .app-container.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Header logo */
+        .app-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .app-header h2 {
+            font-size: 1.8rem;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 0;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav-item {
+            background: none;
+            border: none;
+            font-family: var(--font-main);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+
+        .nav-item.active {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none; /* Hidden until active */
+            min-height: 250px;
+            line-height: 1.8;
+        }
+
+        .content-section.active-section {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 10px;
+        }
+
+        /* Daily update / Co-star insight box format */
+        .insight-box {
+            background-color: var(--accent-gray);
+            padding: 15px;
+            border-left: 3px solid var(--border-color);
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Audio Track Styles */
+        .track-list {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .track-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 0.95rem;
+        }
+
+        .audio-btn {
+            background-color: var(--text-color);
+            color: #ffffff;
+            border: 1px solid var(--border-color);
+            font-family: var(--font-main);
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+        }
+
+        .audio-btn:hover {
+            background-color: #ffe5ec;
+            color: var(--text-color);
+        }
+
+        /* Utility helper to hide elements */
+        .hidden {
+            display: none !important;
+        }
+        /* New message addition container under each song */
+.track-message-box {
+    margin-top: 4px;
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #444;
+    padding: 10px;
+    background: var(--accent-gray);
+    border-left: 2px solid var(--border-color);
+}
+    </style>
+</head>
+<body>
+
+    <!-- 1. LOG IN VIEW -->
+    <div id="loginView" class="login-container">
+        <h1>MADE BY GELOCUTIE ♥️</h1>
+        <p>Your chart. Your life. Connected.</p>
+        
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            <div class="input-group">
+                <label for="username">Username / Email</label>
+                <input type="text" id="username" required placeholder="cosmos123">
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required placeholder="••••••••">
+            </div>
+            <button type="submit" class="btn-submit">Enter the Cosmos</button>
+        </form>
+    </div>
+
+    <!-- 1.5 COSMIC ANIMATION PORTAL OVERLAY -->
+    <div id="portalOverlay" class="portal-overlay">
+        <div class="cosmic-ring ring-1"></div>
+        <div class="cosmic-ring ring-2"></div>
+        <div class="aquarius-glyph">💓</div>
+        <div class="portal-text">Aligning my heart for Renlyn...</div>
+    </div>
+
+    <!-- 2. MAIN APP VIEW -->
+    <div id="appView" class="app-container">
+        <header class="app-header">
+            <h2>Renlyn️</h2>
+            <p>Aquarius ♒️</p>
+        </header>
+
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <button class="nav-item active" onclick="switchTab('home', this)">Home</button>
+            <button class="nav-item" onclick="switchTab('angelo', this)">Angeloqt</button>
+            <button class="nav-item" onclick="switchTab('songs', this)">Songs</button>
+            <button class="nav-item" onclick="switchTab('compatibility', this)">Compatibility</button>
+            <button class="nav-item" onclick="switchTab('message', this)">Message For You</button>
+        </nav>
+
+        <!-- Content Area -->
+        <main>
+            <!-- HOME TAB -->
+            <section id="home" class="content-section active-section">
+                <h3 class="section-title">Thoughts of gelo 🤔</h3>
+                <div class="insight-box">
+                    I still get butterflies when I see your smile.
+                </div>
+                <div class="insight-box">
+    Just thinking about you and had to smile!
+</div>
+<div class="insight-box">
+Did you just do a magic trick? Because every time I look at you, everyone else disappears.
+</div>
+<div class="insight-box">
+Just wanted to send a little reminder that you're amazing.
+</div>
+<div class="insight-box">
+You crossed my mind and made my day brighter.
+</div>
+<div class="insight-box">
+I can’t stop smiling when I think of you.
+</div>
+<div class="insight-box">
+    I love to hear your voice
+</div>
+<div class="insight-box">
+    Meeting you was like seeing life in color for the first time.
+</div>
+<div class="insight-box">
+    No matter how dull my days go, your presence makes everything in my life colorful.
+</div>
+<div class="insight-box">
+    Honestly, I adore you.
+</div>
+<div class="insight-box">
+    I had given up on love but then you changed everything for me.
+</div>
+<div class="insight-box">
+    We go together like peanut butter and jelly.
+</div>
+<div class="insight-box">
+    I love that you put in the effort to do things that really matter to me. I hope you know how much I love and appreciate you.
+</div>
+<div class="insight-box">
+    We are cute together. 🤪
+</div>
+            </section>
+
+            <!-- ANGELO TAB -->
+            <section id="angelo" class="content-section">
+                <h3 class="section-title">Angelo</h3>
+                <div class="insight-box">
+                    <strong>Bakit ba to nandito!? wala, papansin lang ako sayo e, pake mo ako gumawa djk 😚</strong>
+                </div>
+                <div class="insight-box">
+                    <p><strong>Sun in Gemini:</strong></p>
+                </div>
+                <p>His core identity is driven by curiosity, intelligence, and communication. You love learning and sharing ideas</p>
+                <br>
+                <div class="insight-box">
+                    <p><strong>Moon in Libra:</strong></p>
+                </div>
+                <p>Individuals with this placement seek emotional balance, harmonious relationships, and peaceful environments.</p>
+                <br>
+                <div class="insight-box">
+                    <p><strong>Ascendant in Cancer:</strong></p>
+                </div>
+                <p>Ruled by the Moon, these individuals are highly empathetic, nurturing, and deeply intuitive. They are known for creating warm, protective spaces for their loved ones but may appear cautious or guarded at first glance.</p>
+                <br>
+                <br>
+                <div class="insight-box">
+                    <strong>Core Personality Traits</strong>
+                </div>
+                <p>
+                    <strong>Empathetic & Intuitive:</strong> You possess strong emotional intelligence and an almost telepathic ability to sense what others are feeling.
+                    <br><br>
+                    <strong>Protective & Loyal:</strong> Just like the crab, you have a soft, vulnerable interior shielded by a tough outer shell. You are fiercely devoted to your family and close friends.
+                    <br><br>
+                    <strong>Security-Oriented:</strong> You crave a stable, comfortable, and harmonious home environment, and you can become clingy or withdrawn if that security is threatened.
+                </p>
+            </section>
+
+<!-- SONGS TAB -->
+<section id="songs" class="content-section">
+    <h3 class="section-title">Songs that makes me think of you 💓</h3>
+    <p style="margin-bottom: 20px;">Songs curated for your current emotional transit:</p>
+    
+    <ul class="track-list">
+        <!-- Track 1 -->
+        <li class="track-item">
+            <span>Heaven Knows — Orange  & Lemons</span>
+            <button class="audio-btn" onclick="toggleAudio('track1', this)">Play</button>
+        </li>
+        <!-- NEW MESSAGE BOX ADDED HERE -->
+        <div class="track-message-box">
+            How many times, I've wondered what it would be like if one day our stories became one. Maybe the stars brought us together for a reason, or maybe life simply gave me the chance to meet someone who makes ordinary days feel extraordinary.
+
+You don't have to rush, and you don't have to have all the answers right now. I just hope that whenever you think of me, you remember someone who genuinely admires you, respects your heart, and believes you're worth every bit of patience.
+
+If the universe ever asks me what I wished for, my answer would be simple: that one day you'll see what I see whenever I look at you not perfection, but someone incredibly special. And if that day ever comes, I promise to keep choosing you, not because the stars told me to, but because my heart already did.
+
+Until then, I'll keep hoping... because sometimes the most beautiful things are worth waiting for. 💓
+        </div>
+        <audio id="track1" src="1.mp3"></audio>
+        
+        <!-- Track 2 -->
+        <li class="track-item">
+            <span>Those Eyes — New West</span>
+            <button class="audio-btn" onclick="toggleAudio('track2', this)">Play</button>
+        </li>
+        <!-- NEW MESSAGE BOX ADDED HERE -->
+        <div class="track-message-box">
+            It's funny how the smallest things can mean the most. Your smile, your laugh, the way you talk about the things you love they've become some of my favorite moments. You may not notice those little things, but I do. And maybe that's why I like you as much as I do. 💜
+        </div>
+        <audio id="track2" src="2.mp3"></audio>
+        
+        <!-- Track 3 -->
+        <li class="track-item">
+            <span>Fresh Eyes — Andy Grammer</span>
+            <button class="audio-btn" onclick="toggleAudio('track3', this)">Play</button>
+        </li>
+        <!-- NEW MESSAGE BOX ADDED HERE -->
+        <div class="track-message-box">
+            Before you, days were just... days. But somehow, after meeting you, the little things started feeling different. The sunsets looked prettier, songs meant a little more, and even the simplest moments became something I'd remember.
+
+Maybe that's what happens when someone gives you a fresh perspective on life. Or maybe... it's just what you do to me.
+
+I guess seeing the world through fresh eyes isn't about seeing new places it's about meeting someone who makes the old ones feel brand new. And for me, that someone is you. 💘
+        </div>
+        <audio id="track3" src="3.mp3"></audio>
+        
+        <!-- Track 4 -->
+        <li class="track-item">
+            <span>Oh pagibig — Ylona Garcia</span>
+            <button class="audio-btn" onclick="toggleAudio('track4', this)">Play</button>
+        </li>
+        <!-- NEW MESSAGE BOX ADDED HERE -->
+        <div class="track-message-box">
+            I never planned on liking you this much. It just happened little by little, conversation by conversation, until one day I realized you had become my favorite part of the day.
+
+Okay... this is going to sound incredibly cheesy, but this was the song I was listening to while making this website. And somehow it made me stop and think, "Why am I like this when it comes to you?" I guess that's when I realized... maybe my heart already knew the answer before I did.
+
+So... yeah. Thanks for being the reason behind all of this. 🌸💜
+    </div>
+        <audio id="track4" src="4.mp3"></audio>
+    </ul>
+</section>
+
+            <!-- COMPATIBILITY TAB -->
+            <section id="compatibility" class="content-section">
+                <h3 class="section-title">Compatibility Matrix</h3>
+                <div class="insight-box">
+                    <strong>Gemini 98% 😝</strong>
+                </div>
+                <strong>Why it works:</strong> Aquarius dreams about the future, and Gemini is always ready to explore it together. I'll give you space when you need it, hold your hand when you don't, and remind you that you'll never have to become someone else just to be loved. Maybe the stars only brought us to the same page, but the rest is our choice. I can't promise a perfect story, only that I'll always choose to make you feel safe, seen, and appreciated. And if taking a chance on me ever crosses your mind... I promise it'll be a risk I'll spend every day proving was worth it.😚</p>
+                <br>
+                <div class="insight-box">
+                    <strong>Sagittarius 0% 🤷🏻</strong>
+                </div>
+                <p><strong>Why it works:</strong> Sagittarius is like free Wi-Fi exciting when it works, but don't expect a stable connection.🤪</p>
+                <br>
+                <div class="insight-box">
+                    <strong>Libra -99% 😡 (niloko kana ngani)</strong>
+                </div>
+                <p><strong>Why it works:</strong> SYSTEM ERROR MANLOLOKO.</p>
+                
+                <br>
+                
+                Disclaimer pwede mo naman to isearch sa web ehe wala nilagay ko lang to para cute parang ako ehe 🫶
+
+            </section>
+
+            <!-- MESSAGE FOR YOU TAB -->
+            <section id="message" class="content-section">
+                <h3 class="section-title">A Message For You</h3>
+                
+                <div class="insight-box" style="font-style: italic;">
+                    "The universe is under no obligation to make sense to you. But you are under an obligation to make sense of your own choices."
+                </div>
+                <p style="margin-bottom: 25px;">Today is a great day to close open loops. Stop holding your breath waiting for an apology or a sign. You are the sign.</p>
+                
+                <!-- PHOTO CARD CONTAINER -->
+                <div class="card-container" style="display: flex; flex-wrap: wrap; gap: 20px; background: #fffdf9; border: 1px solid #eadeca; border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); font-family: sans-serif;">
+                    
+                    <!-- Left Side: Photo Frame -->
+                    <div class="card-photo-side" style="flex: 1; min-width: 280px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px dashed #d1c4e9; border-radius: 8px; padding: 20px; background: #faf8f5; min-height: 300px;">
+                        <img src="1.jpeg" alt="Our Story" style="max-width: 100%; max-height: 250px; border-radius: 6px; object-fit: cover; display: block; margin-bottom: 10px;">
+                        <span style="color: #7c4dff; font-weight: bold; font-size: 0.9rem; font-family: var(--font-main);">✨ My Cherished Moment ✨</span>
+                    </div>
+                    
+                    <!-- Right Side: Message Details -->
+                    <div class="card-text-side" style="flex: 1.2; min-width: 280px; color: #333; line-height: 1.6; font-family: sans-serif;">
+                        <h4 style="margin-top: 0; color: #5e35b1; font-size: 1.3rem; border-bottom: 2px solid #b39ddb; padding-bottom: 8px;">To the one who brightens my cosmos 💘</h4>
+                        
+                        <p style="font-style: italic; background: #f3e5f5; padding: 10px; border-radius: 6px; border-left: 4px solid #ab47bc; margin-bottom: 15px;">I wanted to make this space for you because, to be completely honest, you have a way of changing the gravity of my world whenever you are around. See that photo of you walking? That was a moment where I was just genuinely, blissfully happy to be sharing the same path as you. You were just walking ahead, completely unaware of how much you were making my entire day just by existing in it. I secretly took that picture because I wanted a reminder of what pure, effortless happiness felt like. Every time I look at it, I can’t help but smile.
+
+Sometimes the universe brings people into our lives who don't even have to try to make things better they just do, simply by being themselves. For me, that person is you. Your energy, your brilliant mind, your laugh, and even your absolute chaos are my favorite parts of any day. Even when things feel heavy or complicated, just seeing you or hearing your voice makes the dust settle perfectly into place.
+
+I know things aren’t always simple between us, and I know feelings can’t be rushed, scheduled, or predicted by the stars. I want you to know, from the very bottom of my heart, that there is absolutely no pressure here. I never want to force a connection or make you feel trapped by how much I care about you. Love isn't something to be demanded; it’s just something that grows on its own when the space is warm and safe enough. And that is exactly what I want to be for you a safe, warm space where you can completely be yourself, no matter what.
+
+You don't have to change a single thing about who you are. You don't have to worry about matching my pace or figuring everything out right now. I am completely content just being the person who gets to build silly things, share songs, and find little ways to crack open a smile on your face. Whether our stars are perfectly aligned right now or just drifting in the same night sky, please remember that you have someone completely in your corner who thinks the absolute world of you.
+
+Thank you for being the beautiful soul that you are, and for making my universe a much more vibrant place to live in. I hope this brings a little bit of peace, a lot of warmth, and a beautiful smile to your face today.
+<br>
+<strong>With all my love and favorite cosmic vibrations,Angelo ✨</strong>
+
+</p>
+                        
+                        <p style="margin-bottom: 15px;">
+                            <br>
+             <strong>Ps. wag mo na to ipadelete saking pic and sorry na if i take that shot without you knowing i really love taking photos pero yeaa eto nalang meron akong ichecherish e kaya nga may lakas ako ng loob na di ka kausapin because of this kase tinitignan koto and napapasmile nalang ako pag naalala ko hehe🫠🤭</strong>   
+
+         </p>
+                        
+    <br>
+                        
+                        <p style="font-weight: bold; color: #5e35b1; margin-bottom: 5px;"></p>
+                        <ul style="margin: 0 0 20px 0; padding-left: 20px; font-size: 0.9rem; color: #555;">
+                    
+                        <div style="font-weight: bold; text-align: right; color: #ab47bc; font-family: var(--font-main);">
+                    
+                            <span style="font-size: 1.1rem; color: #5e35b1;"></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- JAVASCRIPT FOR ANIMATION, SWITCHING, & MUSIC -->
+    <script>
+        // Smooth authentication trigger & cosmic loading overlay
+        function handleLogin(event) {
+            event.preventDefault(); 
+            
+            const loginBox = document.getElementById('loginView');
+            const portal = document.getElementById('portalOverlay');
+            const mainApp = document.getElementById('appView');
+
+            // 1. Fade out login view
+            loginBox.style.opacity = '0';
+            loginBox.style.transform = 'translateY(-20px)';
+
+            setTimeout(() => {
+                loginBox.classList.add('hidden');
+                // 2. Bring up full screen space animation 
+                portal.classList.add('active');
+                
+                // Switch application body background theme to cosmic dark during loader
+                document.body.style.backgroundColor = '#111111';
+            }, 500);
+
+            // 3. Hold animation for 3 seconds, then seamlessly transition to app
+            setTimeout(() => {
+                portal.classList.remove('active');
+                
+                // Revert background back to lovely pastel pink
+                document.body.style.backgroundColor = 'var(--bg-color)';
+                
+                mainApp.style.display = 'block';
+                
+                // Trigger modern fade-in transition
+                setTimeout(() => {
+                    mainApp.classList.add('show');
+                }, 50);
+            }, 3500);
+        }
+
+        // Tab navigation handler
+        function switchTab(sectionId, element) {
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active-section');
+            });
+
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.classList.remove('active');
+            });
+
+            document.getElementById(sectionId).classList.add('active-section');
+            element.classList.add('active');
+            
+            if (sectionId !== 'songs') {
+                const allAudios = document.querySelectorAll('audio');
+                allAudios.forEach(audio => { audio.pause(); });
+                const allButtons = document.querySelectorAll('.audio-btn');
+                allButtons.forEach(btn => { btn.textContent = 'Play'; });
+            }
+        }
+
+        // Audio Player Handler
+        function toggleAudio(trackId, btnElement) {
+            const currentAudio = document.getElementById(trackId);
+            const allAudios = document.querySelectorAll('audio');
+            const allButtons = document.querySelectorAll('.audio-btn');
+
+            allAudios.forEach(audio => {
+                if (audio !== currentAudio) { audio.pause(); }
+            });
+
+            allButtons.forEach(btn => {
+                if (btn !== btnElement) { btn.textContent = 'Play'; }
+            });
+
+            if (currentAudio.paused) {
+                currentAudio.play();
+                btnElement.textContent = 'Pause';
+            } else {
+                currentAudio.pause();
+                btnElement.textContent = 'Play';
+            }
+        }
+    </script>
+</body>
+</html>
